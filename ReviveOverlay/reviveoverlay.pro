@@ -6,20 +6,21 @@
 
 QT       += core gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += quick
 
 TARGET = ReviveOverlay
 TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        overlaywidget.cpp \
     openvroverlaycontroller.cpp
 
-HEADERS  += overlaywidget.h \
+HEADERS  += \
     openvroverlaycontroller.h
 
-FORMS    += overlaywidget.ui
+DISTFILES += \
+    OverlayForm.ui.qml \
+    Overlay.qml
 
 INCLUDEPATH += ../openvr/headers
 

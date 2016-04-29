@@ -1,18 +1,19 @@
-#include "overlaywidget.h"
 #include "openvroverlaycontroller.h"
-#include <QApplication>
+#include <QGuiApplication>
+#include <QQuickView>
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    OverlayWidget *pOverlayWidget = new OverlayWidget;
+	QGuiApplication a(argc, argv);
+	QQuickView *view = new QQuickView;
+	view->setSource(QUrl::fromLocalFile("Overlay.qml"));
 
-    COpenVROverlayController::SharedInstance()->Init();
+	COpenVROverlayController::SharedInstance()->Init();
 
-    COpenVROverlayController::SharedInstance()->SetWidget( pOverlayWidget );
+	COpenVROverlayController::SharedInstance()->SetWindow( view );
 
-    // don't show widgets that you're going display in an overlay
-    //w.show();
+	// don't show the window that you're going display in an overlay
+	//view.show();
 
-    return a.exec();
+	return a.exec();
 }

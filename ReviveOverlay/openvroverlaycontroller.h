@@ -17,8 +17,9 @@
 #include <QVector2D>
 #include <QVector3D>
 #include <QtGui/QOpenGLContext>
-#include <QtWidgets/QGraphicsScene>
 #include <QOffscreenSurface>
+#include <QQuickRenderControl>
+#include <QQuickWindow>
 
 class COpenVROverlayController : public QObject
 {
@@ -26,28 +27,28 @@ class COpenVROverlayController : public QObject
 	typedef QObject BaseClass;
 
 public:
-    static COpenVROverlayController *SharedInstance();
+	static COpenVROverlayController *SharedInstance();
 
 public:
-    COpenVROverlayController();
-    virtual ~COpenVROverlayController();
+	COpenVROverlayController();
+	virtual ~COpenVROverlayController();
 
 	bool Init();
 	void Shutdown();
 	void EnableRestart();
 
 	bool BHMDAvailable();
-    vr::IVRSystem *GetVRSystem();
+	vr::IVRSystem *GetVRSystem();
 	vr::HmdError GetLastHmdError();
 
 	QString GetVRDriverString();
 	QString GetVRDisplayString();
 	QString GetName() { return m_strName; }
 
-	void SetWidget( QWidget *pWidget );
+	void SetWindow( QQuickWindow *pWindow );
 
 public slots:
-	void OnSceneChanged( const QList<QRectF>& );
+	void OnSceneChanged();
 	void OnTimeoutPumpEvents();
 
 protected:
@@ -68,17 +69,17 @@ private:
 	vr::HmdError m_eOverlayError;
 	vr::Compositor_OverlaySettings m_overlaySettings;
 	vr::VROverlayHandle_t m_ulOverlayHandle;
-    vr::VROverlayHandle_t m_ulOverlayThumbnailHandle;
+	vr::VROverlayHandle_t m_ulOverlayThumbnailHandle;
 
 	QOpenGLContext *m_pOpenGLContext;
-	QGraphicsScene *m_pScene;
+	QQuickRenderControl *m_pRenderControl;
 	QOpenGLFramebufferObject *m_pFbo;
 	QOffscreenSurface *m_pOffscreenSurface;
 
 	QTimer *m_pPumpEventsTimer;
 
-	// the widget we're drawing into the texture
-	QWidget *m_pWidget;
+	// the window we're drawing into the texture
+	QQuickWindow *m_pWindow;
 
 	QPointF m_ptLastMouse;
 	Qt::MouseButtons m_lastMouseButtons;
